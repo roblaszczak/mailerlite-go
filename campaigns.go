@@ -86,9 +86,9 @@ type Campaign struct {
 }
 
 type CampaignSettings struct {
-	TrackOpens         string `json:"track_opens"`
-	UseGoogleAnalytics string `json:"use_google_analytics"`
-	EcommerceTracking  string `json:"ecommerce_tracking"`
+	TrackOpens         bool `json:"track_opens"`
+	UseGoogleAnalytics bool `json:"use_google_analytics"`
+	EcommerceTracking  bool `json:"ecommerce_tracking"`
 }
 
 type CampaignFilter struct {
@@ -155,14 +155,15 @@ type UpdateCampaign CreateCampaign
 
 // CreateCampaign - modifies the behavior of campaignService.Create method
 type CreateCampaign struct {
-	Name           string          `json:"name"`
-	LanguageID     int             `json:"language_id,omitempty"`
-	Type           string          `json:"type"`
-	Emails         []Emails        `json:"emails"`
-	Groups         []string        `json:"groups,omitempty"`
-	Segments       []string        `json:"segments,omitempty"`
-	AbSettings     *AbSettings     `json:"ab_settings,omitempty"`
-	ResendSettings *ResendSettings `json:"resend_settings,omitempty"`
+	Name           string            `json:"name"`
+	LanguageID     int               `json:"language_id,omitempty"`
+	Type           string            `json:"type"`
+	Emails         []Emails          `json:"emails"`
+	Groups         []string          `json:"groups,omitempty"`
+	Segments       []string          `json:"segments,omitempty"`
+	AbSettings     *AbSettings       `json:"ab_settings,omitempty"`
+	ResendSettings *ResendSettings   `json:"resend_settings,omitempty"`
+	Settings       *CampaignSettings `json:"settings,omitempty"`
 }
 
 type Emails struct {
