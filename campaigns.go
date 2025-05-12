@@ -170,6 +170,7 @@ type Emails struct {
 	FromName string `json:"from_name"`
 	From     string `json:"from"`
 	Content  string `json:"content"`
+	ReplyTo  string `json:"reply_to"`
 }
 
 type AbSettings struct {
