@@ -13,10 +13,9 @@ type SubscriberService interface {
 	List(ctx context.Context, options *ListSubscriberOptions) (*RootSubscribers, *Response, error)
 	Count(ctx context.Context) (*Count, *Response, error)
 	Get(ctx context.Context, options *GetSubscriberOptions) (*RootSubscriber, *Response, error)
-	// Deprecated: use Upsert instead (https://github.com/mailerlite/mailerlite-go/issues/17)
-	Create(ctx context.Context, subscriber *Subscriber) (*RootSubscriber, *Response, error)
+	Create(ctx context.Context, subscriber *SubscriberToCreate) (*RootSubscriber, *Response, error)
+	Update(ctx context.Context, subscriber *SubscriberUpdate) (*RootSubscriber, *Response, error)
 	Upsert(ctx context.Context, subscriber *UpsertSubscriber) (*RootSubscriber, *Response, error)
-	Update(ctx context.Context, subscriber *UpdateSubscriber) (*RootSubscriber, *Response, error)
 	Delete(ctx context.Context, subscriberID string) (*Response, error)
 	Forget(ctx context.Context, subscriberID string) (*RootSubscriber, *Response, error)
 }
@@ -63,10 +62,43 @@ type Subscriber struct {
 	OptinIP        string                 `json:"optin_ip,omitempty"`
 }
 
+type SubscriberUpdate struct {
+	ID             string                 `json:"id,omitempty"`
+	Email          string                 `json:"email,omitempty"`
+	Status         string                 `json:"status,omitempty"`
+	Source         string                 `json:"source,omitempty"`
+	Sent           int                    `json:"sent,omitempty"`
+	OpensCount     int                    `json:"opens_count,omitempty"`
+	ClicksCount    int                    `json:"clicks_count,omitempty"`
+	OpenRate       float64                `json:"open_rate,omitempty"`
+	ClickRate      float64                `json:"click_rate,omitempty"`
+	IPAddress      interface{}            `json:"ip_address,omitempty"`
+	SubscribedAt   string                 `json:"subscribed_at,omitempty"`
+	UnsubscribedAt interface{}            `json:"unsubscribed_at,omitempty"`
+	CreatedAt      string                 `json:"created_at,omitempty"`
+	UpdatedAt      string                 `json:"updated_at,omitempty"`
+	Fields         map[string]interface{} `json:"fields,omitempty"`
+	Groups         []string               `json:"groups,omitempty"`
+	OptedInAt      string                 `json:"opted_in_at,omitempty"`
+	OptinIP        string                 `json:"optin_ip,omitempty"`
+}
+
 type UpdateSubscriber UpsertSubscriber
 
 type UpsertSubscriber struct {
 	ID             string                 `json:"id,omitempty"`
+	Email          string                 `json:"email,omitempty"`
+	Status         string                 `json:"status,omitempty"`
+	IPAddress      interface{}            `json:"ip_address,omitempty"`
+	SubscribedAt   string                 `json:"subscribed_at,omitempty"`
+	UnsubscribedAt interface{}            `json:"unsubscribed_at,omitempty"`
+	Fields         map[string]interface{} `json:"fields,omitempty"`
+	Groups         []string               `json:"groups,omitempty"`
+	OptedInAt      string                 `json:"opted_in_at,omitempty"`
+	OptinIP        string                 `json:"optin_ip,omitempty"`
+}
+
+type SubscriberToCreate struct {
 	Email          string                 `json:"email,omitempty"`
 	Status         string                 `json:"status,omitempty"`
 	IPAddress      interface{}            `json:"ip_address,omitempty"`
@@ -175,7 +207,7 @@ func (s *subscriberService) Upsert(ctx context.Context, subscriber *UpsertSubscr
 	return root, res, nil
 }
 
-func (s *subscriberService) Update(ctx context.Context, subscriber *UpdateSubscriber) (*RootSubscriber, *Response, error) {
+func (s *subscriberService) Update(ctx context.Context, subscriber *SubscriberUpdate) (*RootSubscriber, *Response, error) {
 	path := fmt.Sprintf("%s/%s", subscriberEndpoint, subscriber.ID)
 
 	req, err := s.client.newRequest(http.MethodPut, path, subscriber)

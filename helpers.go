@@ -55,8 +55,8 @@ type Meta struct {
 	LastPage    int         `json:"last_page"`
 	Links       []MetaLinks `json:"links"`
 	Path        string      `json:"path"`
-	PerPage     int         `json:"per_page"`
-	To          int         `json:"to"`
+	//PerPage     int         `json:"per_page"`
+	To int `json:"to"`
 
 	*Aggregations `json:"aggregations,omitempty"`
 	*Counts       `json:"counts,omitempty"`
