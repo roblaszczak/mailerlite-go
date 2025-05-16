@@ -177,7 +177,7 @@ func (s *subscriberService) Get(ctx context.Context, options *GetSubscriberOptio
 }
 
 // Deprecated: use Upsert instead (https://github.com/mailerlite/mailerlite-go/issues/17)
-func (s *subscriberService) Create(ctx context.Context, subscriber *Subscriber) (*RootSubscriber, *Response, error) {
+func (s *subscriberService) Create(ctx context.Context, subscriber *SubscriberToCreate) (*RootSubscriber, *Response, error) {
 	req, err := s.client.newRequest(http.MethodPost, subscriberEndpoint, subscriber)
 	if err != nil {
 		return nil, nil, err
